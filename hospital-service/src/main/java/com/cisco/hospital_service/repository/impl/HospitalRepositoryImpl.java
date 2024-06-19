@@ -17,27 +17,52 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     private final JdbcClient jdbcClient;
 
     public Integer addHospital(Hospital hospital) {
-        return null;
+        var sql = "INSERT INTO hospital(hospital_id, hospital_name, hospital_address) VALUES (?, ?, ?)";
+        return jdbcClient.sql(sql)
+                .param(1, hospital.getHospitalId())
+                .param(2, hospital.getHospitalName())
+                .param(3, hospital.getHospitalAddress())
+                .update();
     }
 
     public List<Hospital> getAllHospitals() {
-        return null;
+        var sql = "SELECT * FROM hospital";
+        return jdbcClient.sql(sql)
+                .query(Hospital.class)
+                .list();
     }
 
     public Integer getHospitalsCount() {
-        return null;
+        var sql = "SELECT COUNT(*) FROM hospital";
+        Optional<Integer> count = jdbcClient.sql(sql)
+                .query(Integer.class)
+                .optional();
+        return count.orElse(0);
     }
 
     public Hospital getHospitalById(Integer id) {
-        return null;
+        var sql = "SELECT * FROM hospital WHERE hospital_id = ?";
+        Optional<Hospital> hospital = jdbcClient.sql(sql)
+                .param(1, id)
+                .query(Hospital.class)
+                .optional();
+        return hospital.orElse(null);
     }
 
     public Integer updateHospital(Hospital hospital) {
-        return null;
+        var sql = "UPDATE hospital SET hospital_name = ?, hospital_address = ? WHERE hospital_id = ?";
+        return jdbcClient.sql(sql)
+                .param(1, hospital.getHospitalName())
+                .param(2, hospital.getHospitalAddress())
+                .param(3, hospital.getHospitalId())
+                .update();
     }
 
     public Integer deleteHospital(Integer id) {
-        return null;
+        var sql = "DELETE FROM hospital WHERE hospital_id = ?";
+        return jdbcClient.sql(sql)
+                .param(1, id)
+                .update();
     }
 
 }
