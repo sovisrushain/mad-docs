@@ -3,6 +3,7 @@ package com.cisco.hospital_service.controller;
 import com.cisco.hospital_service.dto.ResponseDTO;
 import com.cisco.hospital_service.model.Hospital;
 import com.cisco.hospital_service.service.HospitalService;
+import com.cisco.hospital_service.util.ValidationHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -55,12 +56,13 @@ public class HospitalController {
     public ResponseDTO<Integer> createHospital(@RequestBody Hospital hospital, BindingResult bindingResult) {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors().stream()
-                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
-                    .toList();
-            responseDTO.setMessage(errors.getFirst());
-            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-            return responseDTO;
+//            List<String> errors = bindingResult.getFieldErrors().stream()
+//                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
+//                    .toList();
+//            responseDTO.setMessage(errors.getFirst());
+//            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
+//            return responseDTO;
+            ValidationHandler.handleValidation(bindingResult, responseDTO);
         }
         Integer res = hospitalService.addHospital(hospital);
         if (res == 1) {
@@ -79,12 +81,13 @@ public class HospitalController {
     public ResponseDTO<Integer> updateHospital(@PathVariable String id, @RequestBody Hospital hospital, BindingResult bindingResult) {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors().stream()
-                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
-                    .toList();
-            responseDTO.setMessage(errors.getFirst());
-            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-            return responseDTO;
+//            List<String> errors = bindingResult.getFieldErrors().stream()
+//                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
+//                    .toList();
+//            responseDTO.setMessage(errors.getFirst());
+//            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
+//            return responseDTO;
+            ValidationHandler.handleValidation(bindingResult, responseDTO);
         }
         Integer res = hospitalService.updateHospital(id, hospital);
         if (res == 1) {
