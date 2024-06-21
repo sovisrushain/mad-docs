@@ -5,7 +5,6 @@ import com.cisco.hospital_service.model.Hospital;
 import com.cisco.hospital_service.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +20,23 @@ public class HospitalController {
     private final HospitalService hospitalService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<Hospital>>> getAllHospitals() {
+    public ResponseDTO<List<Hospital>> getAllHospitals() {
         List<Hospital> hospitals = hospitalService.getAllHospitals();
         ResponseDTO<List<Hospital>> responseDTO = new ResponseDTO<>();
-        responseDTO.setData(hospitals);
-        responseDTO.setMessage("all hospitals");
-        responseDTO.setStatusCode(HttpStatus.OK);
-        return ResponseEntity.ok(responseDTO);
+        if (hospitals.isEmpty()) {
+            responseDTO.setData(hospitals);
+            responseDTO.setMessage("there are no hospitals registered");
+            responseDTO.setStatusCode(HttpStatus.OK);
+        } else {
+            responseDTO.setData(hospitals);
+            responseDTO.setMessage("all hospitals");
+            responseDTO.setStatusCode(HttpStatus.OK);
+        }
+        return responseDTO;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<Hospital>> getHospitalById(@PathVariable Integer id) {
+    public ResponseDTO<Hospital> getHospitalById(@PathVariable String id) {
         Hospital hospital = hospitalService.getHospitalById(id);
         ResponseDTO<Hospital> responseDTO = new ResponseDTO<>();
         if (hospital != null) {
@@ -43,11 +48,11 @@ public class HospitalController {
             responseDTO.setMessage("hospital not found");
             responseDTO.setData(null);
         }
-        return ResponseEntity.ok(responseDTO);
+        return responseDTO;
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<Integer>> createHospital(@RequestBody Hospital hospital, BindingResult bindingResult) {
+    public ResponseDTO<Integer> createHospital(@RequestBody Hospital hospital, BindingResult bindingResult) {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getFieldErrors().stream()
@@ -55,17 +60,23 @@ public class HospitalController {
                     .toList();
             responseDTO.setMessage(errors.getFirst());
             responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-            return ResponseEntity.ok(responseDTO);
+            return responseDTO;
         }
         Integer res = hospitalService.addHospital(hospital);
-        responseDTO.setData(res);
-        responseDTO.setStatusCode(HttpStatus.CREATED);
-        responseDTO.setMessage("hospital created");
-        return ResponseEntity.ok(responseDTO);
+        if (res == 1) {
+            responseDTO.setData(res);
+            responseDTO.setStatusCode(HttpStatus.CREATED);
+            responseDTO.setMessage("hospital created");
+        } else {
+            responseDTO.setData(res);
+            responseDTO.setMessage("hospital not created");
+            responseDTO.setStatusCode(HttpStatus.CONFLICT);
+        }
+        return responseDTO;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO<Integer>> updateHospital(@PathVariable Integer id, @RequestBody Hospital hospital, BindingResult bindingResult) {
+    public ResponseDTO<Integer> updateHospital(@PathVariable String id, @RequestBody Hospital hospital, BindingResult bindingResult) {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getFieldErrors().stream()
@@ -73,31 +84,44 @@ public class HospitalController {
                     .toList();
             responseDTO.setMessage(errors.getFirst());
             responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-            return ResponseEntity.ok(responseDTO);
+            return responseDTO;
         }
-        Integer res = hospitalService.updateHospital(hospital);
-        responseDTO.setData(res);
-        responseDTO.setStatusCode(HttpStatus.CREATED);
-        responseDTO.setMessage("hospital updated with id: " + id);
-        return ResponseEntity.ok(responseDTO);
+        Integer res = hospitalService.updateHospital(id, hospital);
+        if (res == 1) {
+            responseDTO.setData(res);
+            responseDTO.setStatusCode(HttpStatus.CREATED);
+            responseDTO.setMessage("hospital updated with id: " + id);
+        } else {
+            responseDTO.setData(res);
+            responseDTO.setMessage("hospital not updated");
+            responseDTO.setStatusCode(HttpStatus.CONFLICT);
+        }
+        return responseDTO;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO<Integer>> deleteHospital(@PathVariable Integer id) {
+    public ResponseDTO<Integer> deleteHospital(@PathVariable String id) {
         Integer res = hospitalService.deleteHospital(id);
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
-        responseDTO.setData(res);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT);
-        return ResponseEntity.ok(responseDTO);
+        if (res == 1) {
+            responseDTO.setData(res);
+            responseDTO.setMessage("hospital deleted");
+            responseDTO.setStatusCode(HttpStatus.NO_CONTENT);
+        } else {
+            responseDTO.setData(res);
+            responseDTO.setMessage("hospital not deleted");
+            responseDTO.setStatusCode(HttpStatus.CONFLICT);
+        }
+        return responseDTO;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDTO<Integer>> getHospitalCount() {
+    public ResponseDTO<Integer> getHospitalCount() {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         Integer hospitalsCount = hospitalService.getHospitalsCount();
         responseDTO.setData(hospitalsCount);
         responseDTO.setStatusCode(HttpStatus.OK);
-        return ResponseEntity.ok(responseDTO);
+        return responseDTO;
     }
 
 }

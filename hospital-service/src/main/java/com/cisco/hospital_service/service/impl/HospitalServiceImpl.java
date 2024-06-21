@@ -16,31 +16,31 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public Integer addHospital(Hospital hospital) {
-        return 0;
+        return hospitalRepository.addHospital(hospital);
     }
 
     @Override
     public List<Hospital> getAllHospitals() {
-        return List.of();
+        return hospitalRepository.getAllHospitals();
     }
 
     @Override
     public Integer getHospitalsCount() {
-        return 0;
+        return hospitalRepository.getHospitalsCount();
     }
 
     @Override
-    public Hospital getHospitalById(Integer id) {
-        return null;
+    public Hospital getHospitalById(String id) {
+        return hospitalRepository.getHospitalById(id);
     }
 
     @Override
-    public Integer updateHospital(Hospital hospital) {
-        return 0;
+    public Integer updateHospital(String id, Hospital hospital) {
+        return hospitalRepository.updateHospital(id, hospital);
     }
 
     @Override
-    public Integer deleteHospital(Integer id) {
-        return 0;
+    public Integer deleteHospital(String id) {
+        return hospitalRepository.deleteHospital(id);
     }
 }

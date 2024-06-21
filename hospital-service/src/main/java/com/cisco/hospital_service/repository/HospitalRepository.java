@@ -8,7 +8,7 @@ public interface HospitalRepository {
     Integer addHospital(Hospital hospital);
     List<Hospital> getAllHospitals();
     Integer getHospitalsCount();
-    Hospital getHospitalById(Integer id);
-    Integer updateHospital(Hospital hospital);
-    Integer deleteHospital(Integer id);
+    Hospital getHospitalById(String id);
+    Integer updateHospital(String id, Hospital hospital);
+    Integer deleteHospital(String id);
 }
