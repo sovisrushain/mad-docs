@@ -14,8 +14,8 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/hospitals")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/hospitals")
 public class HospitalController {
 
     private final HospitalService hospitalService;
@@ -91,7 +91,7 @@ public class HospitalController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ResponseDTO<Integer>> getHospitalCount() {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         Integer hospitalsCount = hospitalService.getHospitalsCount();
