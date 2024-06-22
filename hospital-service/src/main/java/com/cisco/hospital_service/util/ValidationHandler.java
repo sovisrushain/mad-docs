@@ -7,6 +7,9 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 public class ValidationHandler {
+
+    private ValidationHandler() {}
+
     public static ResponseDTO<Integer> handleValidation(BindingResult bindingResult, ResponseDTO<Integer> responseDTO) {
             List<String> errors = bindingResult.getFieldErrors().stream()
                     .map(err -> err.getField() + ": " + err.getDefaultMessage())

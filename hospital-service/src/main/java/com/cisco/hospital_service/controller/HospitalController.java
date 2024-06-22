@@ -56,13 +56,7 @@ public class HospitalController {
     public ResponseDTO<Integer> createHospital(@RequestBody Hospital hospital, BindingResult bindingResult) {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         if (bindingResult.hasErrors()) {
-//            List<String> errors = bindingResult.getFieldErrors().stream()
-//                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
-//                    .toList();
-//            responseDTO.setMessage(errors.getFirst());
-//            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-//            return responseDTO;
-            ValidationHandler.handleValidation(bindingResult, responseDTO);
+            return ValidationHandler.handleValidation(bindingResult, responseDTO);
         }
         Integer res = hospitalService.addHospital(hospital);
         if (res == 1) {
@@ -81,13 +75,7 @@ public class HospitalController {
     public ResponseDTO<Integer> updateHospital(@PathVariable String id, @RequestBody Hospital hospital, BindingResult bindingResult) {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         if (bindingResult.hasErrors()) {
-//            List<String> errors = bindingResult.getFieldErrors().stream()
-//                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
-//                    .toList();
-//            responseDTO.setMessage(errors.getFirst());
-//            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-//            return responseDTO;
-            ValidationHandler.handleValidation(bindingResult, responseDTO);
+            return ValidationHandler.handleValidation(bindingResult, responseDTO);
         }
         Integer res = hospitalService.updateHospital(id, hospital);
         if (res == 1) {
