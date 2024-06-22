@@ -111,6 +111,7 @@ public class HospitalController {
         ResponseDTO<Integer> responseDTO = new ResponseDTO<>();
         Integer hospitalsCount = hospitalService.getHospitalsCount();
         responseDTO.setData(hospitalsCount);
+        responseDTO.setMessage("total hospital count");
         responseDTO.setStatusCode(HttpStatus.OK);
         return responseDTO;
     }
