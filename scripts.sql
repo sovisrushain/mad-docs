@@ -1,7 +1,7 @@
 -- hospital
 
-CREATE TABLE Hospital (
-                          hospitalId VARCHAR(255) NOT NULL PRIMARY KEY,
-                          hospitalName VARCHAR(255) NOT NULL,
-                          hospitalAddress VARCHAR(255) NOT NULL
+CREATE TABLE hospital (
+                          hospital_id VARCHAR(255) NOT NULL PRIMARY KEY,
+                          hospital_name VARCHAR(255) NOT NULL,
+                          hospital_address VARCHAR(255) NOT NULL
 );
