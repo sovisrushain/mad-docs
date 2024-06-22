@@ -28,7 +28,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                     .param(3, hospital.getHospitalAddress())
                     .update();
         } catch (Exception ex) {
-            log.error("HospitalRepositoryImpl => addHospital: ", ex);
+            log.error("HospitalRepositoryImpl => addHospital: {}", ex.getMessage());
             return 0;
         }
     }
@@ -40,7 +40,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                     .query(Hospital.class)
                     .list();
         } catch (Exception ex) {
-            log.error("HospitalRepositoryImpl => getAllHospitals: ", ex);
+            log.error("HospitalRepositoryImpl => getAllHospitals: {}", ex.getMessage());
             return new ArrayList<>();
         }
     }
@@ -62,7 +62,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                     .optional();
             return hospital.orElse(null);
         } catch (Exception ex) {
-            log.error("HospitalRepositoryImpl => getHospitalById: ", ex);
+            log.error("HospitalRepositoryImpl => getHospitalById: {}", ex.getMessage());
             return null;
         }
     }
@@ -76,7 +76,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                     .param(3, id)
                     .update();
         } catch (Exception ex) {
-            log.error("HospitalRepositoryImpl => updateHospital: ", ex);
+            log.error("HospitalRepositoryImpl => updateHospital: {}", ex.getMessage());
             return 0;
         }
     }
@@ -88,7 +88,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                     .param(1, id)
                     .update();
         } catch (Exception ex) {
-            log.error("HospitalRepositoryImpl => deleteHospital: ", ex);
+            log.error("HospitalRepositoryImpl => deleteHospital: {}", ex.getMessage());
             return 0;
         }
     }
