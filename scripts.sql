@@ -1,6 +1,6 @@
 
 -- Creating the User table
-CREATE TABLE user (
+CREATE TABLE "user" (
                       user_id VARCHAR(255) PRIMARY KEY,
                       user_name VARCHAR(255) NOT NULL,
                       user_email VARCHAR(255) UNIQUE NOT NULL,
