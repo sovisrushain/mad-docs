@@ -53,6 +53,7 @@ CREATE TABLE doctor_schedule (
                                  doctor_id VARCHAR(255) NOT NULL,
                                  hospital_id VARCHAR(255) NOT NULL,
                                  day_of_week VARCHAR(50) NOT NULL,
+                                 start_time VARCHAR(50) NOT NULL,
                                  max_patients INTEGER NOT NULL,
                                  FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id),
                                  FOREIGN KEY (hospital_id) REFERENCES hospital(hospital_id)
