@@ -1,6 +1,7 @@
 package com.cisco.doctor_schedule_service.controller;
 
-import com.cisco.doctor_schedule_service.dto.DoctorScheduleDTO;
+import com.cisco.doctor_schedule_service.model.DoctorSchedule;
+import com.cisco.doctor_schedule_service.service.DoctorScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DoctorScheduleController {
 
-    @PostMapping
-    public void createDoctorSchedule(@RequestBody DoctorScheduleDTO doctorScheduleDTO) {
+    private final DoctorScheduleService doctorScheduleService;
 
+    @PostMapping
+    public void createDoctorSchedule(@RequestBody DoctorSchedule doctorSchedule) {
+        doctorScheduleService.createDoctorSchedule(doctorSchedule);
     }
 }

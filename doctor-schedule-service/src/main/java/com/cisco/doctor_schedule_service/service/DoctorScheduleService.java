@@ -1,7 +1,7 @@
 package com.cisco.doctor_schedule_service.service;
 
-import com.cisco.doctor_schedule_service.dto.DoctorScheduleDTO;
+import com.cisco.doctor_schedule_service.model.DoctorSchedule;
 
 public interface DoctorScheduleService {
-    void createDoctorSchedule(DoctorScheduleDTO doctorScheduleDTO);
+    void createDoctorSchedule(DoctorSchedule doctorSchedule);
 }

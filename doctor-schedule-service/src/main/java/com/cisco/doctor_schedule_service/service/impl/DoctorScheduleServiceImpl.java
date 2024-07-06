@@ -14,8 +14,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     private final DoctorScheduleRepository doctorScheduleRepository;
 
     @Override
-    public void createDoctorSchedule(DoctorScheduleDTO doctorScheduleDTO) {
-        DoctorSchedule doctorSchedule = new DoctorSchedule();
+    public void createDoctorSchedule(DoctorSchedule doctorSchedule) {
         doctorScheduleRepository.createDoctorSchedule(doctorSchedule);
     }
 }
