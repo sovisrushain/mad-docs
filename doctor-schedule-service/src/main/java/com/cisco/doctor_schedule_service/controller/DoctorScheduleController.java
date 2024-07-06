@@ -1,5 +1,6 @@
 package com.cisco.doctor_schedule_service.controller;
 
+import com.cisco.doctor_schedule_service.dto.ResponseDTO;
 import com.cisco.doctor_schedule_service.model.DoctorSchedule;
 import com.cisco.doctor_schedule_service.service.DoctorScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,9 @@ public class DoctorScheduleController {
     private final DoctorScheduleService doctorScheduleService;
 
     @PostMapping
-    public void createDoctorSchedule(@RequestBody DoctorSchedule doctorSchedule) {
+    public ResponseDTO<String> createDoctorSchedule(@RequestBody DoctorSchedule doctorSchedule) {
+        ResponseDTO<String> res = new ResponseDTO<>();
         doctorScheduleService.createDoctorSchedule(doctorSchedule);
+        return res;
     }
 }
