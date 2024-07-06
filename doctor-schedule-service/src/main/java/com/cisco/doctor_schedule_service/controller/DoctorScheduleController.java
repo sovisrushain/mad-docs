@@ -1,7 +1,6 @@
 package com.cisco.doctor_schedule_service.controller;
 
 import com.cisco.doctor_schedule_service.dto.DoctorScheduleDTO;
-import com.cisco.doctor_schedule_service.model.DoctorSchedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
