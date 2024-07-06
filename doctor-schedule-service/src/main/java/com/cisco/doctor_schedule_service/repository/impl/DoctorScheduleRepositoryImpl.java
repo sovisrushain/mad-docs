@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public class DoctorScheduleRepositoryImpl implements DoctorScheduleRepository {
     @Override
     public void createDoctorSchedule(DoctorSchedule doctorSchedule) {
-        //todo:
+        //todo: save doctor schedule
     }
 }

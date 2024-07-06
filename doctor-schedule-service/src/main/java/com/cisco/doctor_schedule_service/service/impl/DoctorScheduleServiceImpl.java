@@ -15,6 +15,15 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     @Override
     public String createDoctorSchedule(DoctorSchedule doctorSchedule) {
         doctorScheduleRepository.createDoctorSchedule(doctorSchedule);
+
+        //todo:  call doctor service & check doctor is present
+        //todo: if not return asking register the doctor first
+
+        //todo:  call hospital service & check doctor is present
+        //todo: if not return asking register the hospital first
+
+        //todo: both doc and hospital are present save the schedule
+
         return null;
     }
 }
