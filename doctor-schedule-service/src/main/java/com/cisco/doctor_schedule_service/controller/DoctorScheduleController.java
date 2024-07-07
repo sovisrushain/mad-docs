@@ -28,7 +28,7 @@ public class DoctorScheduleController {
         } else {
             responseDTO.setMessage(res);
             responseDTO.setData(res);
-            responseDTO.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setStatusCode(HttpStatus.BAD_REQUEST);
         }
         return responseDTO;
     }
