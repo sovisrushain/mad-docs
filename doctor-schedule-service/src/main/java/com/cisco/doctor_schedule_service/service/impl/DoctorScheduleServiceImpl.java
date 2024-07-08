@@ -6,6 +6,7 @@ import com.cisco.doctor_schedule_service.model.Hospital;
 import com.cisco.doctor_schedule_service.repository.DoctorScheduleRepository;
 import com.cisco.doctor_schedule_service.service.DoctorScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,15 +15,21 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
-    private final DoctorScheduleRepository doctorScheduleRepository;
+    @Value("${doctor.service.api}")
+    private String doctorScheduleUrl;
+
+    @Value("${hospital.service.api}")
+    private String hospitalScheduleUrl;
+
     private final WebClient.Builder webClientBuilder;
+    private final DoctorScheduleRepository doctorScheduleRepository;
 
     @Override
     public String createDoctorSchedule(DoctorSchedule doctorSchedule) {
 
         Doctor doctor = webClientBuilder.build()
                 .get()
-                .uri("{}" + doctorSchedule.getDoctorId())
+                .uri(doctorScheduleUrl + doctorSchedule.getDoctorId())
                 .retrieve()
                 .bodyToMono(Doctor.class)
                 .block();
@@ -32,7 +39,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
         Hospital hospital = webClientBuilder.build()
                 .get()
-                .uri("{}" + doctorSchedule.getHospitalId())
+                .uri(hospitalScheduleUrl + doctorSchedule.getHospitalId())
                 .retrieve()
                 .bodyToMono(Hospital.class)
                 .block();
