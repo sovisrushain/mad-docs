@@ -21,7 +21,7 @@ public class DoctorScheduleController {
     public ResponseDTO<String> createDoctorSchedule(@RequestBody DoctorSchedule doctorSchedule) {
         ResponseDTO<String> responseDTO = new ResponseDTO<>();
         String res = doctorScheduleService.createDoctorSchedule(doctorSchedule);
-        if (res.equals("success")) {
+        if (res.equals("Success")) {
             responseDTO.setMessage("success");
             responseDTO.setData(res);
             responseDTO.setStatusCode(HttpStatus.CREATED);

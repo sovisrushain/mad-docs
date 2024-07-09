@@ -1,5 +1,6 @@
 package com.cisco.doctor_schedule_service.service.impl;
 
+import com.cisco.doctor_schedule_service.dto.ResponseDTO;
 import com.cisco.doctor_schedule_service.model.Doctor;
 import com.cisco.doctor_schedule_service.model.DoctorSchedule;
 import com.cisco.doctor_schedule_service.model.Hospital;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
@@ -31,24 +31,24 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     @Override
     public String createDoctorSchedule(DoctorSchedule doctorSchedule) {
 
-        Doctor doctor = webClientBuilder.build()
+        var doctorResponse = webClientBuilder.build()
                 .get()
                 .uri(doctorScheduleUrl + doctorSchedule.getDoctorId())
                 .retrieve()
-                .bodyToMono(Doctor.class)
+                .bodyToMono(ResponseDTO.class)
                 .block();
-        if (doctor == null) {
+        if (doctorResponse.getMessage().equals("doctor not found")) {
             log.error("DoctorScheduleServiceImpl => createDoctorSchedule => Doctor Not Found, First Register the Doctor");
             return "Doctor Not Found, First Register the Doctor";
         }
 
-        Hospital hospital = webClientBuilder.build()
+        var hospitalResponse = webClientBuilder.build()
                 .get()
                 .uri(hospitalScheduleUrl + doctorSchedule.getHospitalId())
                 .retrieve()
-                .bodyToMono(Hospital.class)
+                .bodyToMono(ResponseDTO.class)
                 .block();
-        if (hospital == null) {
+        if (hospitalResponse.getMessage().equals("hospital not found")) {
             log.error("DoctorScheduleServiceImpl => createDoctorSchedule => Hospital Not Found, First Register the Hospital");
             return "Hospital Not Found, First Register the Hospital";
         }
