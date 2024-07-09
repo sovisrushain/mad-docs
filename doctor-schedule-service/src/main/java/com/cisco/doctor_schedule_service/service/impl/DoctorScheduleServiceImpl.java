@@ -6,6 +6,8 @@ import com.cisco.doctor_schedule_service.model.Hospital;
 import com.cisco.doctor_schedule_service.repository.DoctorScheduleRepository;
 import com.cisco.doctor_schedule_service.service.DoctorScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -23,6 +25,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
     private final WebClient.Builder webClientBuilder;
     private final DoctorScheduleRepository doctorScheduleRepository;
+    private static final Logger log = LoggerFactory.getLogger(DoctorScheduleServiceImpl.class);
+
 
     @Override
     public String createDoctorSchedule(DoctorSchedule doctorSchedule) {
@@ -34,6 +38,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 .bodyToMono(Doctor.class)
                 .block();
         if (doctor == null) {
+            log.error("DoctorScheduleServiceImpl => createDoctorSchedule => Doctor Not Found, First Register the Doctor");
             return "Doctor Not Found, First Register the Doctor";
         }
 
@@ -44,6 +49,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 .bodyToMono(Hospital.class)
                 .block();
         if (hospital == null) {
+            log.error("DoctorScheduleServiceImpl => createDoctorSchedule => Hospital Not Found, First Register the Hospital");
             return "Hospital Not Found, First Register the Hospital";
         }
 
