@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class DoctorScheduleRepositoryImpl implements DoctorScheduleRepository {
@@ -31,5 +33,10 @@ public class DoctorScheduleRepositoryImpl implements DoctorScheduleRepository {
             log.error("DoctorScheduleRepositoryImpl => createDoctorSchedule: {}", ex.getMessage());
             return 0;
         }
+    }
+
+    @Override
+    public List<DoctorSchedule> getAllDoctorSchedules() {
+        return List.of();
     }
 }

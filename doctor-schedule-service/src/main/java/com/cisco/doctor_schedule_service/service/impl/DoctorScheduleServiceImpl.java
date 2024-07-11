@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DoctorScheduleServiceImpl implements DoctorScheduleService {
@@ -56,5 +58,10 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
         Integer update = doctorScheduleRepository.createDoctorSchedule(doctorSchedule);
         return (update == 1) ? "Success" : "Failed";
 
+    }
+
+    @Override
+    public List<DoctorSchedule> getAllDoctorSchedules() {
+        return List.of();
     }
 }
