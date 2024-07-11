@@ -62,6 +62,10 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
     @Override
     public List<DoctorSchedule> getAllDoctorSchedules() {
+        List<DoctorSchedule> allDoctorSchedules = doctorScheduleRepository.getAllDoctorSchedules();
+        //todo: get doctor detail
+        //todo: get hospital detail
+        //todo: aggrigate and send response
         return List.of();
     }
 }

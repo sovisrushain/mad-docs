@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/schedule")
 @RequiredArgsConstructor
@@ -16,8 +18,10 @@ public class DoctorScheduleController {
     private final DoctorScheduleService doctorScheduleService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<DoctorSchedule>> getAllDoctorSchedules() {
-
+    public ResponseDTO<List<DoctorSchedule>> getAllDoctorSchedules() {
+        ResponseDTO<List<DoctorSchedule>> responseDTO = new ResponseDTO<>();
+        doctorScheduleService.getAllDoctorSchedules();
+        return responseDTO;
     }
 
     @PostMapping
