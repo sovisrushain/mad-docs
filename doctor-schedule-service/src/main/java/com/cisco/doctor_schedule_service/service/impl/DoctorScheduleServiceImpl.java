@@ -66,21 +66,42 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     public List<FullDoctorScheduleDetail> getAllDoctorSchedules() {
         List<FullDoctorScheduleDetail> fullDoctorScheduleDetails = new ArrayList<>();
         List<DoctorSchedule> allDoctorSchedules = doctorScheduleRepository.getAllDoctorSchedules();
+
         allDoctorSchedules.parallelStream().forEach(doctorSchedule -> {
-            String doctorId = doctorSchedule.getDoctorId();
-            String hospitalId = doctorSchedule.getHospitalId();
-            //todo: get doctor detail
-            //todo: get hospital detail
-            //todo: aggrigate and send response
+
+            var doctorResponse = webClientBuilder.build()
+                    .get()
+                    .uri(doctorScheduleUrl + doctorSchedule.getDoctorId())
+                    .retrieve()
+                    .bodyToMono(ResponseDTO.class)
+                    .block();
+            if (doctorResponse.getMessage().equals("doctor not found")) {
+                log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => Doctor Not Found, First Register the Doctor");
+            }
+
+            var hospitalResponse = webClientBuilder.build()
+                    .get()
+                    .uri(hospitalScheduleUrl + doctorSchedule.getHospitalId())
+                    .retrieve()
+                    .bodyToMono(ResponseDTO.class)
+                    .block();
+            if (hospitalResponse.getMessage().equals("hospital not found")) {
+                log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => Hospital Not Found, First Register the Hospital");
+            }
+
+            Doctor doctor = (Doctor) doctorResponse.getData();
+            Hospital hospital = (Hospital) hospitalResponse.getData();
+
             FullDoctorScheduleDetail fullDoctorScheduleDetail = new FullDoctorScheduleDetail();
             fullDoctorScheduleDetail.setScheduleId(doctorSchedule.getScheduleId());
-            fullDoctorScheduleDetail.setDoctor(null);
-            fullDoctorScheduleDetail.setHospital(null);
+            fullDoctorScheduleDetail.setDoctor(doctor);
+            fullDoctorScheduleDetail.setHospital(hospital);
             fullDoctorScheduleDetail.setStartTime(doctorSchedule.getStartTime());
             fullDoctorScheduleDetail.setDayOfWeek(doctorSchedule.getDayOfWeek());
             fullDoctorScheduleDetail.setMaxPatients(doctorSchedule.getMaxPatients());
             fullDoctorScheduleDetails.add(fullDoctorScheduleDetail);
         });
+
         return fullDoctorScheduleDetails;
     }
 }
