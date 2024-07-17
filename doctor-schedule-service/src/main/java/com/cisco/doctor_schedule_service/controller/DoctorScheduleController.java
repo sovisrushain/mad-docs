@@ -1,11 +1,11 @@
 package com.cisco.doctor_schedule_service.controller;
 
+import com.cisco.doctor_schedule_service.dto.FullDoctorScheduleDetail;
 import com.cisco.doctor_schedule_service.dto.ResponseDTO;
 import com.cisco.doctor_schedule_service.model.DoctorSchedule;
 import com.cisco.doctor_schedule_service.service.DoctorScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +18,12 @@ public class DoctorScheduleController {
     private final DoctorScheduleService doctorScheduleService;
 
     @GetMapping
-    public ResponseDTO<List<DoctorSchedule>> getAllDoctorSchedules() {
-        ResponseDTO<List<DoctorSchedule>> responseDTO = new ResponseDTO<>();
-        doctorScheduleService.getAllDoctorSchedules();
+    public ResponseDTO<List<FullDoctorScheduleDetail>> getAllDoctorSchedules() {
+        ResponseDTO<List<FullDoctorScheduleDetail>> responseDTO = new ResponseDTO<>();
+        List<FullDoctorScheduleDetail> allDoctorSchedules = doctorScheduleService.getAllDoctorSchedules();
+        responseDTO.setData(allDoctorSchedules);
+        responseDTO.setMessage("Success");
+        responseDTO.setStatusCode(HttpStatus.OK);
         return responseDTO;
     }
 

@@ -1,5 +1,6 @@
 package com.cisco.doctor_schedule_service.service.impl;
 
+import com.cisco.doctor_schedule_service.dto.FullDoctorScheduleDetail;
 import com.cisco.doctor_schedule_service.dto.ResponseDTO;
 import com.cisco.doctor_schedule_service.model.Doctor;
 import com.cisco.doctor_schedule_service.model.DoctorSchedule;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,11 +63,24 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     }
 
     @Override
-    public List<DoctorSchedule> getAllDoctorSchedules() {
+    public List<FullDoctorScheduleDetail> getAllDoctorSchedules() {
+        List<FullDoctorScheduleDetail> fullDoctorScheduleDetails = new ArrayList<>();
         List<DoctorSchedule> allDoctorSchedules = doctorScheduleRepository.getAllDoctorSchedules();
-        //todo: get doctor detail
-        //todo: get hospital detail
-        //todo: aggrigate and send response
-        return List.of();
+        allDoctorSchedules.parallelStream().forEach(doctorSchedule -> {
+            String doctorId = doctorSchedule.getDoctorId();
+            String hospitalId = doctorSchedule.getHospitalId();
+            //todo: get doctor detail
+            //todo: get hospital detail
+            //todo: aggrigate and send response
+            FullDoctorScheduleDetail fullDoctorScheduleDetail = new FullDoctorScheduleDetail();
+            fullDoctorScheduleDetail.setScheduleId(doctorSchedule.getScheduleId());
+            fullDoctorScheduleDetail.setDoctor(null);
+            fullDoctorScheduleDetail.setHospital(null);
+            fullDoctorScheduleDetail.setStartTime(doctorSchedule.getStartTime());
+            fullDoctorScheduleDetail.setDayOfWeek(doctorSchedule.getDayOfWeek());
+            fullDoctorScheduleDetail.setMaxPatients(doctorSchedule.getMaxPatients());
+            fullDoctorScheduleDetails.add(fullDoctorScheduleDetail);
+        });
+        return fullDoctorScheduleDetails;
     }
 }
