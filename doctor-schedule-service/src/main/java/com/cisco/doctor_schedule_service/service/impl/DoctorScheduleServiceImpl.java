@@ -89,16 +89,24 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => Hospital Not Found, First Register the Hospital");
             }
 
-            FullDoctorScheduleDetail fullDoctorScheduleDetail = new FullDoctorScheduleDetail();
-            fullDoctorScheduleDetail.setScheduleId(doctorSchedule.getScheduleId());
-            fullDoctorScheduleDetail.setDoctor((Doctor) doctorResponse.getData());
-            fullDoctorScheduleDetail.setHospital((Hospital) hospitalResponse.getData());
-            fullDoctorScheduleDetail.setStartTime(doctorSchedule.getStartTime());
-            fullDoctorScheduleDetail.setDayOfWeek(doctorSchedule.getDayOfWeek());
-            fullDoctorScheduleDetail.setMaxPatients(doctorSchedule.getMaxPatients());
+            Doctor doctor = (Doctor) doctorResponse.getData();
+            Hospital hospital = (Hospital) hospitalResponse.getData();
+
+            FullDoctorScheduleDetail fullDoctorScheduleDetail = getFullDoctorScheduleDetail(doctorSchedule, doctor, hospital);
             fullDoctorScheduleDetails.add(fullDoctorScheduleDetail);
         });
 
         return fullDoctorScheduleDetails;
+    }
+
+    private FullDoctorScheduleDetail getFullDoctorScheduleDetail(DoctorSchedule doctorSchedule, Doctor doctor, Hospital hospital) {
+        FullDoctorScheduleDetail fullDoctorScheduleDetail = new FullDoctorScheduleDetail();
+        fullDoctorScheduleDetail.setScheduleId(doctorSchedule.getScheduleId());
+        fullDoctorScheduleDetail.setDoctor(doctor);
+        fullDoctorScheduleDetail.setHospital(hospital);
+        fullDoctorScheduleDetail.setStartTime(doctorSchedule.getStartTime());
+        fullDoctorScheduleDetail.setDayOfWeek(doctorSchedule.getDayOfWeek());
+        fullDoctorScheduleDetail.setMaxPatients(doctorSchedule.getMaxPatients());
+        return fullDoctorScheduleDetail;
     }
 }
