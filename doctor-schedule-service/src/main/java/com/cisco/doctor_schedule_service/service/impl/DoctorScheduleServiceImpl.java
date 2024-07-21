@@ -41,7 +41,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 .retrieve()
                 .bodyToMono(ResponseDTO.class)
                 .block();
-        if (doctorResponse.getMessage().equals("doctor not found")) {
+        if (doctorResponse != null && doctorResponse.getMessage().equals("doctor not found")) {
             log.error("DoctorScheduleServiceImpl => createDoctorSchedule => Doctor Not Found, First Register the Doctor");
             return "Doctor Not Found, First Register the Doctor";
         }
@@ -52,7 +52,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 .retrieve()
                 .bodyToMono(ResponseDTO.class)
                 .block();
-        if (hospitalResponse.getMessage().equals("hospital not found")) {
+        if (hospitalResponse != null && hospitalResponse.getMessage().equals("hospital not found")) {
             log.error("DoctorScheduleServiceImpl => createDoctorSchedule => Hospital Not Found, First Register the Hospital");
             return "Hospital Not Found, First Register the Hospital";
         }
@@ -77,7 +77,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                     .retrieve()
                     .bodyToMono(ResponseDTO.class)
                     .block();
-            if (doctorResponse.getMessage().equals("doctor not found")) {
+            if (doctorResponse != null && doctorResponse.getMessage().equals("doctor not found")) {
                 log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => Doctor Not Found, First Register the Doctor");
             }
 
@@ -87,7 +87,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                     .retrieve()
                     .bodyToMono(ResponseDTO.class)
                     .block();
-            if (hospitalResponse.getMessage().equals("hospital not found")) {
+            if (hospitalResponse != null && hospitalResponse.getMessage().equals("hospital not found")) {
                 log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => Hospital Not Found, First Register the Hospital");
             }
 
