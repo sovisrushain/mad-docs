@@ -7,6 +7,8 @@ import com.cisco.doctor_schedule_service.model.DoctorSchedule;
 import com.cisco.doctor_schedule_service.model.Hospital;
 import com.cisco.doctor_schedule_service.repository.DoctorScheduleRepository;
 import com.cisco.doctor_schedule_service.service.DoctorScheduleService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
+    private static final Logger log = LoggerFactory.getLogger(DoctorScheduleServiceImpl.class);
+    private final WebClient.Builder webClientBuilder;
+    private final ObjectMapper objectMapper;
+    private final DoctorScheduleRepository doctorScheduleRepository;
     @Value("${doctor.service.api}")
     private String doctorScheduleUrl;
-
     @Value("${hospital.service.api}")
     private String hospitalScheduleUrl;
-
-    private final WebClient.Builder webClientBuilder;
-    private final DoctorScheduleRepository doctorScheduleRepository;
-    private static final Logger log = LoggerFactory.getLogger(DoctorScheduleServiceImpl.class);
-
 
     @Override
     public String createDoctorSchedule(DoctorSchedule doctorSchedule) {
@@ -68,6 +68,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
         List<DoctorSchedule> allDoctorSchedules = doctorScheduleRepository.getAllDoctorSchedules();
 
         allDoctorSchedules.parallelStream().forEach(doctorSchedule -> {
+            Doctor doctor = null;
+            Hospital hospital = null;
 
             var doctorResponse = webClientBuilder.build()
                     .get()
@@ -89,8 +91,14 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => Hospital Not Found, First Register the Hospital");
             }
 
-            Doctor doctor = (Doctor) doctorResponse.getData();
-            Hospital hospital = (Hospital) hospitalResponse.getData();
+            try {
+                String doctorJson = objectMapper.writeValueAsString(doctorResponse.getData());
+                doctor = objectMapper.readValue(doctorJson, Doctor.class);
+                String hospitalJson = objectMapper.writeValueAsString(hospitalResponse.getData());
+                hospital = objectMapper.readValue(hospitalJson, Hospital.class);
+            } catch (JsonProcessingException e) {
+                log.error("DoctorScheduleServiceImpl => getAllDoctorSchedules => JsonProcessingException");
+            }
 
             FullDoctorScheduleDetail fullDoctorScheduleDetail = getFullDoctorScheduleDetail(doctorSchedule, doctor, hospital);
             fullDoctorScheduleDetails.add(fullDoctorScheduleDetail);

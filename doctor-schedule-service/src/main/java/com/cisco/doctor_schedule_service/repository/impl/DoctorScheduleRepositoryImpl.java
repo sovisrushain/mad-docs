@@ -37,6 +37,9 @@ public class DoctorScheduleRepositoryImpl implements DoctorScheduleRepository {
 
     @Override
     public List<DoctorSchedule> getAllDoctorSchedules() {
-        return List.of();
+        var sql = "SELECT * FROM doctor_schedule";
+        return jdbcClient.sql(sql)
+                .query(DoctorSchedule.class)
+                .list();
     }
 }
