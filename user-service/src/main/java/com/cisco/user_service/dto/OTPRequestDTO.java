@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OTPRequestDTO {
+    private String userId;
     private String mobileNo;
     private String sender;
 }
