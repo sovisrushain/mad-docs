@@ -58,3 +58,12 @@ CREATE TABLE doctor_schedule (
                                  FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id),
                                  FOREIGN KEY (hospital_id) REFERENCES hospital(hospital_id)
 );
+
+-- Creating the OTP table
+CREATE TABLE otp_table (
+                           user_id VARCHAR(255) PRIMARY KEY,
+                           mobile_no VARCHAR(15) NOT NULL,
+                           otp VARCHAR(6) NOT NULL,
+                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
