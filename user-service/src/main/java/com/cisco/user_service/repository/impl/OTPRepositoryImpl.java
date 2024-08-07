@@ -1,6 +1,7 @@
 package com.cisco.user_service.repository.impl;
 
 import com.cisco.user_service.dto.OTPRequestDTO;
+import com.cisco.user_service.dto.OTPValidateDTO;
 import com.cisco.user_service.repository.OTPRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -26,6 +27,20 @@ public class OTPRepositoryImpl implements OTPRepository {
                     .update();
         } catch (Exception ex) {
             log.error("OTPRepositoryImpl => saveOTP: {}", ex.getMessage());
+            return 0;
+        }
+    }
+
+    @Override
+    public int validateOTP(OTPValidateDTO otpValidateDTO) {
+        try {
+            var sql = "SELECT EXISTS (SELECT 1 FROM otp_table WHERE otp = ? AND mobile_no = ?);";
+            return jdbcClient.sql(sql)
+                    .param(1, otpValidateDTO.getOtp())
+                    .param(2, otpValidateDTO.getMobileNo())
+                    .update();
+        } catch (Exception ex) {
+            log.error("OTPRepositoryImpl => validateOTP: {}", ex.getMessage());
             return 0;
         }
     }

@@ -1,6 +1,7 @@
 package com.cisco.user_service.service.impl;
 
 import com.cisco.user_service.dto.OTPRequestDTO;
+import com.cisco.user_service.dto.OTPValidateDTO;
 import com.cisco.user_service.repository.OTPRepository;
 import com.cisco.user_service.service.OTPService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,9 @@ public class OTPServiceImpl implements OTPService {
     }
 
     @Override
-    public String validateOTP(OTPRequestDTO otpRequestDTO) {
-        return "";
+    public boolean validateOTP(OTPValidateDTO otpValidateDTO) {
+        int res = otpRepository.validateOTP(otpValidateDTO);
+        return res > 0;
     }
 
     private String generateOTP() {

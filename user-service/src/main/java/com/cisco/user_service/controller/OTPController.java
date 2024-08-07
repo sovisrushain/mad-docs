@@ -1,6 +1,7 @@
 package com.cisco.user_service.controller;
 
 import com.cisco.user_service.dto.OTPRequestDTO;
+import com.cisco.user_service.dto.OTPValidateDTO;
 import com.cisco.user_service.service.OTPService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class OTPController {
     }
 
     @PostMapping("/validate")
-    public String validateOTP(@RequestBody OTPRequestDTO otpRequestDTO) {
-        return otpService.validateOTP(otpRequestDTO);
+    public Boolean validateOTP(@RequestBody OTPValidateDTO otpValidateDTO) {
+        return otpService.validateOTP(otpValidateDTO);
     }
 }
