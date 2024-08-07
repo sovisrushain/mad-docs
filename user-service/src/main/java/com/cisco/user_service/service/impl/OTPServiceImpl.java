@@ -1,6 +1,6 @@
 package com.cisco.user_service.service.impl;
 
-import com.cisco.user_service.dto.OTPRequestDTO;
+import com.cisco.user_service.dto.OTPCreateDTO;
 import com.cisco.user_service.dto.OTPValidateDTO;
 import com.cisco.user_service.repository.OTPRepository;
 import com.cisco.user_service.service.OTPService;
@@ -18,12 +18,12 @@ public class OTPServiceImpl implements OTPService {
     private final OTPRepository otpRepository;
 
     @Override
-    public String createOTP(OTPRequestDTO otpRequestDTO) {
+    public String createOTP(OTPCreateDTO otpCreateDTO) {
         var res = 0;
         String otp = generateOTP();
 
         if (isValidOTP(otp)) {
-            res = otpRepository.saveOTP(otpRequestDTO, otp);
+            res = otpRepository.saveOTP(otpCreateDTO, otp);
         } else {
             return "Failed";
         }
@@ -33,8 +33,7 @@ public class OTPServiceImpl implements OTPService {
 
     @Override
     public boolean validateOTP(OTPValidateDTO otpValidateDTO) {
-        int res = otpRepository.validateOTP(otpValidateDTO);
-        return res > 0;
+        return otpRepository.validateOTP(otpValidateDTO);
     }
 
     private String generateOTP() {

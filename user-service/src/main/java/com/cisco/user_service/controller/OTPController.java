@@ -1,6 +1,6 @@
 package com.cisco.user_service.controller;
 
-import com.cisco.user_service.dto.OTPRequestDTO;
+import com.cisco.user_service.dto.OTPCreateDTO;
 import com.cisco.user_service.dto.OTPValidateDTO;
 import com.cisco.user_service.service.OTPService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,8 @@ public class OTPController {
     private final OTPService otpService;
 
     @PostMapping("/create")
-    public String createOTP(@RequestBody OTPRequestDTO otpRequestDTO) {
-        return otpService.createOTP(otpRequestDTO);
+    public String createOTP(@RequestBody OTPCreateDTO otpCreateDTO) {
+        return otpService.createOTP(otpCreateDTO);
     }
 
     @PostMapping("/validate")
