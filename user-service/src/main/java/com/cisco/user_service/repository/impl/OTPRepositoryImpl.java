@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
+
 @Repository
 @RequiredArgsConstructor
 public class OTPRepositoryImpl implements OTPRepository {
@@ -37,9 +39,8 @@ public class OTPRepositoryImpl implements OTPRepository {
     public boolean validateOTP(OTPValidateDTO otpValidateDTO) {
         try {
             var sql ="SELECT EXISTS (SELECT 1 FROM otp_table WHERE otp = ? AND mobile_no = ?);";
-            return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql,
-                    new Object[]{otpValidateDTO.getOtp(), otpValidateDTO.getMobileNo()},
-                    Boolean.class));
+            return Objects.equals(Boolean.TRUE, jdbcTemplate.queryForObject(sql, Boolean.class,
+                    otpValidateDTO.getOtp(), otpValidateDTO.getMobileNo()));
         } catch (Exception ex) {
             log.error("OTPRepositoryImpl => validateOTP: {}", ex.getMessage());
             return false;
