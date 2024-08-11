@@ -4,4 +4,5 @@ import com.cisco.payment_service.dto.PaymentRequestDTO;
 
 public interface PaymentRepository {
     void savePayment(PaymentRequestDTO paymentRequestDTO);
+    void cancelPayment(String paymentId);
 }

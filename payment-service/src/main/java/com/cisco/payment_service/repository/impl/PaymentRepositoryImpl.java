@@ -25,4 +25,15 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             log.error("PaymentRepositoryImpl => savePayment: ", ex);
         }
     }
+
+    @Override
+    public void cancelPayment(String paymentId) {
+        try {
+            var sql = "";
+            jdbcClient.sql(sql)
+                    .update();
+        } catch (Exception ex) {
+            log.error("PaymentRepositoryImpl => cancelPayment: ", ex);
+        }
+    }
 }
