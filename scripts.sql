@@ -41,9 +41,9 @@ CREATE TABLE booking (
 CREATE TABLE payment (
                          payment_id VARCHAR(255) PRIMARY KEY,
                          booking_id VARCHAR(255) UNIQUE,
-                         amount DECIMAL(10, 2) NOT NULL,
-                         payment_date DATE NOT NULL,
-                         status VARCHAR(50) NOT NULL,
+                         amount BIGINT NOT NULL,
+                         payment_date TIMESTAMP NOT NULL,
+                         status BOOLEAN NOT NULL,
                          FOREIGN KEY (booking_id) REFERENCES booking(booking_id)
 );
 
