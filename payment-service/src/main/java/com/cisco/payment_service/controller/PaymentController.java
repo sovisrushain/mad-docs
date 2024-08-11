@@ -18,7 +18,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public void cancelPayment(@PathVariable String id) {
-        paymentService.cancelPayment(id);
+    public String cancelPayment(@PathVariable String id) {
+        return paymentService.cancelPayment(id);
     }
 }

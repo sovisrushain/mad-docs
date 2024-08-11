@@ -5,6 +5,7 @@ import com.cisco.payment_service.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
     private static final Logger log = LoggerFactory.getLogger(PaymentRepositoryImpl.class);
     private final JdbcClient jdbcClient;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public int savePayment(PaymentRequestDTO paymentRequestDTO) {
@@ -36,13 +38,23 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
-    public void cancelPayment(String paymentId) {
+    public String cancelPayment(String paymentId) {
         try {
-            var sql = "";
-            jdbcClient.sql(sql)
-                    .update();
+            var sql1 = "SELECT EXISTS (SELECT 1 FROM payment WHERE payment_id = ?);";
+            var sql2 = "UPDATE payment SET status = ? WHERE payment_id = ?;";
+            Boolean exists = jdbcTemplate.queryForObject(sql1, Boolean.class, paymentId);
+            if (Boolean.FALSE.equals(exists)) {
+                return "Payment not found";
+            } else {
+                jdbcClient.sql(sql2)
+                        .param(1, false)
+                        .param(2, paymentId)
+                        .update();
+                return "Done";
+            }
         } catch (Exception ex) {
             log.error("PaymentRepositoryImpl => cancelPayment: ", ex);
+            return "FAILED";
         }
     }
 }

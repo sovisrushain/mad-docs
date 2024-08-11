@@ -18,7 +18,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void cancelPayment(String paymentId) {
-        paymentRepository.cancelPayment(paymentId);
+    public String cancelPayment(String paymentId) {
+        return paymentRepository.cancelPayment(paymentId);
     }
 }
