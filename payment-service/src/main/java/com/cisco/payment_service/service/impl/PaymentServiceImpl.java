@@ -13,8 +13,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
 
     @Override
-    public void createPayment(PaymentRequestDTO paymentRequestDTO) {
-        paymentRepository.savePayment(paymentRequestDTO);
+    public int createPayment(PaymentRequestDTO paymentRequestDTO) {
+        return paymentRepository.savePayment(paymentRequestDTO);
     }
 
     @Override

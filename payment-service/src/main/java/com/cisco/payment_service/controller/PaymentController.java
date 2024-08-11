@@ -13,8 +13,8 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public void createPayment(@RequestBody PaymentRequestDTO paymentRequestDTO) {
-        paymentService.createPayment(paymentRequestDTO);
+    public int createPayment(@RequestBody PaymentRequestDTO paymentRequestDTO) {
+        return paymentService.createPayment(paymentRequestDTO);
     }
 
     @GetMapping("/{id}")
